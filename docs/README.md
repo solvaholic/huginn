@@ -1,18 +1,53 @@
-# template
-@solvaholic's repository template
+# solvaholic/huginn
+Here's where @solvaholic scratches the "want to use Huginn" itch by learning Ruby on Rails
 
-## What to do next
+## Helpful resources
 
-"So I created this repository from the template. Now what?"
+- [_huginn/README.md_](https://github.com/huginn/huginn/blob/master/README.md)
+- [_huginn/doc/docker/install.md_](https://github.com/huginn/huginn/blob/master/doc/docker/install.md)
+- [_Rails Crash Course_](https://nostarch.com/railscrashcourse) from no starch press
 
-1. Decide whether to use the included workflows (described below).
-1. Configure repository settings, for example branch protection.
-1. Confirm whether the included license and documentation are appropriate for this repository.
-1. Replace this readme, which is in the `docs` directory.
+## Up and running with Huginn
 
-## Included workflows
+### 1. Create your `.env` file
 
-The workflows included with this template are enabled by default. View their results under this repository's _Actions_ tab.
+Copy `.env.example` to `.env`, read through it, and set your settings. In particular, be sure to set these:
+
+- `APP_SECRET_TOKEN`
+
+    @radavis' [_Generate Secret Keys_](https://radavis.github.io/ruby/generate-secret-keys/) explains how to generate one
+
+- `DATABASE_PASSWORD`
+
+    Set this to a random string, for example the output of:
+    ```
+    openssl rand -base64 12
+    ```
+
+- `RAILS_ENV`
+- `INVITATION_CODE`
+- `SMTP_*`
+- `EMAIL_FROM_ADDRESS`
+
+    This will be used if `RAILS_ENV` is `production` or `SEND_EMAIL_IN_DEVELOPMENT` is `true`.
+
+### 2. Run Huginn
+If you're already using Docker locally, Huginn is super simple to run:
+
+```bash
+docker run --detach --rm --name huginn --env-file .env \
+-p 3000:3000 -v huginn_data:/var/lib/mysql huginn/huginn
+```
+
+If you're not already using Docker locally, start using it.
+
+| OS | Install Docker |
+|:- |:- |
+| macOS | `brew install --cask docker` |
+| LInux | [_Install Docker Engine_](https://docs.docker.com/engine/install/#server) |
+| Windows | Install [Docker Desktop](https://www.docker.com/products/docker-desktop) |
+
+## GitHub Actions workflows in this repository
 
 ### Lint Code Base
 
